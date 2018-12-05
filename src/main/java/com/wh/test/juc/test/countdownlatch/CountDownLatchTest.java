@@ -17,10 +17,11 @@ public class CountDownLatchTest {
             try {
                 //阻塞BossThread等待，当countDownLatch为0时，唤醒
                 countDownLatch.await();
+                //countDownLatch.await(1L, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("人到齐了，开会吧");
+            System.out.println("Boss说：人到齐了，开会吧");
         }
     }
 

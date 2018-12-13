@@ -14,7 +14,7 @@ import java.util.concurrent.*;
 public class BlockingQueue001 {
     public static void main(String[] args) throws Exception {
         //1.ArrayBolckQueue
-/*        BlockingQueue queue = new ArrayBlockingQueue(3);
+  /*      BlockingQueue queue = new ArrayBlockingQueue(3);
         Producer producer = new Producer(queue);
         Consumer consumer = new Consumer(queue);
         new Thread(producer).start();
@@ -28,14 +28,14 @@ public class BlockingQueue001 {
         Delayed  element2 = (DelayElement) delayQueue.take();
         System.out.println(element2.getDelay(TimeUnit.SECONDS));*/
 
-        //3.链阻塞队列 LinkedBlockingQueue
-/*        BlockingQueue<String> unbounded = new LinkedBlockingQueue<String>();
+        //3.链阻塞队列 LinkedBlockingQueue   单向链表实现的阻塞队列
+        //BlockingQueue<String> unbounded = new LinkedBlockingQueue<String>();
         BlockingQueue<String> bounded   = new LinkedBlockingQueue<String>(1024);
         bounded.put("Value1");
         bounded.put("Value2");
         bounded.put("Value3");
         String value = bounded.take();
-        System.out.println(value);*/
+        System.out.println(value);
 
         //优先级队列
 /*        BlockingQueue queue   = new PriorityBlockingQueue();
@@ -69,7 +69,7 @@ public class BlockingQueue001 {
 
     }
 
-    class Producer implements Runnable {
+    static class Producer implements Runnable {
         private BlockingQueue blockingQueue = null;
 
         public Producer(BlockingQueue blockingQueue) {
@@ -86,13 +86,13 @@ public class BlockingQueue001 {
                 Thread.sleep(4000);
                 blockingQueue.add("4");
                 Thread.sleep(4000);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
 
             }
         }
     }
 
-    class Consumer implements Runnable {
+   static class Consumer implements Runnable {
 
         protected BlockingQueue queue = null;
 
@@ -102,6 +102,7 @@ public class BlockingQueue001 {
 
         public void run() {
             try {
+                //poll 获取并移除此队列的头，如果此队列为空，则返回 null
                 System.out.println(queue.poll(2, TimeUnit.SECONDS));
                 System.out.println(queue.poll(2, TimeUnit.SECONDS));
                 System.out.println(queue.poll(2, TimeUnit.SECONDS));
@@ -112,7 +113,7 @@ public class BlockingQueue001 {
     }
 
     //延迟队列
-    class DelayElement implements Delayed {
+   static class DelayElement implements Delayed {
         private String name;
 
         public long getDelay(TimeUnit unit) {

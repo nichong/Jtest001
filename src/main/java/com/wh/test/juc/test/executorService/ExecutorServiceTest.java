@@ -1,7 +1,11 @@
 package com.wh.test.juc.test.executorService;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +19,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class ExecutorServiceTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
+        //Executors.newXXXX()方式可创建线程池
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+
         // 创建线程池。线程池的"最大池大小"和"核心池大小"都为1，"线程池"的阻塞队列容量为1。
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1,
                 1,0, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1));
@@ -31,6 +38,17 @@ public class ExecutorServiceTest {
         threadPoolExecutor.execute(new Rt("1"));
         threadPoolExecutor.execute(new Rt("2"));
         threadPoolExecutor.execute(new Rt("3"));
+
+        //Callable用于产生结果，Future用于获取结果
+        //execute方法没有返回值，submit方法接收Callable或者Runable返回
+  /*      Future<String> future = threadPoolExecutor.submit(new Callable<String>() {
+           @Override
+           public String call() throws Exception {
+               Thread.sleep(4000);
+               return "ok";
+           }
+       });
+        System.out.println(future.get());//future.get()一直阻塞，等待计算完成，然后获取其结果*/
 
         threadPoolExecutor.shutdown();
 

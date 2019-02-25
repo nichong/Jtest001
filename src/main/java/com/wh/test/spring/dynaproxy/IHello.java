@@ -1,0 +1,15 @@
+package com.wh.test.spring.dynaproxy;
+
+public interface IHello {
+    /**
+     * 业务处理A方法
+     * @param name
+     */
+    void sayHello(String name);
+    /**
+     * 业务处理B方法
+     * @param name
+     */
+    void sayGoogBye(String name);
+}
+

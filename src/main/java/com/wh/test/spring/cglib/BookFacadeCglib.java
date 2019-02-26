@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 
 /**
  * 使用cglib动态代理
+ * cglib代理原理：CGLib采用非常底层的字节码技术，可以为一个类创建子类，并在子类中采用方法拦截的技术拦截所有的父类方法的调用，并顺势织入横切逻辑。
  */
 public class BookFacadeCglib implements MethodInterceptor {
 
@@ -31,19 +32,18 @@ public class BookFacadeCglib implements MethodInterceptor {
     public Object getInstance(Object target) {
         this.target = target;
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(this.target.getClass());
+        enhancer.setSuperclass(this.target.getClass());//设置需要创建子类的类
         //回调方法
         enhancer.setCallback(this);
         //创建代理
-        return enhancer.create();
+        return enhancer.create();//通过字节码技术动态创建子类实例
     }
 
     //回调方法
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        if (method.getName().equals("addBook")) {
-            System.out.println("记录增加图书的日志");
-        }
+        System.out.println("log-------------" + method.getName());
+        //通过代理类调用父类中的方法
         methodProxy.invokeSuper(obj, args);
         return null;
     }
